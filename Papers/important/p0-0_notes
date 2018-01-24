@@ -1,0 +1,51 @@
+IDENTIFYING INFORMATION :
+Article Name - Automatic Object Recognition from Satellite Images
+               using Artificial Neural Network.
+Date of Publication : 10.6.14
+
+    The article was published in International Journal of Computer Applications.
+
+    Purpose of Study - To detect waterbodies in a satellite image. Finding methods
+which can efficiently and accurately detect waterbodies in a GIS image.
+
+        The nature of the study is an experimental study.
+
+        The authors of the paper used Artificial Neural Networks for training
+the model and tested the model on some unknown test data and measured accuracy
+with the help of mean squared error(MSE). It is an application specific theor-
+itical model, but the authors also implemented their algorithm to measure the
+accuracy.
+
+RESEARCH DESIGN & METHODOLOGY :
+    First, the authors collected training from some domain experts. Then they
+pushed those data into a Multi-layer Perceptron (MLP) Training module.
+    In MLP they had implemented 3 things, 1) feed forward, 2) compute-gradient
+and 3) weight-updation. After that this would generate a weight file for which
+the difference between computed output and the actual output is minimum.
+    Now, this weight file and the test data are feeded to the MLP model for
+generation of the output.
+
+    Authors have pointed out that there are several parameters which can affect
+the learning process such as : no. of hidden layers in neural network model, nodes
+in each hidden layers, threshold value, learning rate, co-efficient of activation
+function.
+
+    Now if we give any unknown satellite image of a terrain, the model can detect
+if any waterbody is present in the image or not.
+
+    The only issue is the no. of training data and testing data. The authors have
+trained the model with only 3000 images.
+
+INTERPRETATION of FINDINGS :
+
+    The authors of this paper has pointed out that use of MLP is giving very high
+accuracy(99.54%) on these type of problem domains. But they have not given any interpretations
+if this method can be generalized to any kind of object detection in a satellite
+image. They are ensuring the detection accuracy of waterbody in satellite Images
+would be high in this method.
+
+VALUE of the STUDY :
+
+    The problem addressed by the authors may not have such a high need in current
+situation but it can become a ground-level work based on which many complex problem
+can be solved, e.g, detecting bunkers in a war-zone area. 

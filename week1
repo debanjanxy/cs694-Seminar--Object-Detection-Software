@@ -1,0 +1,30 @@
+Respected Sir,
+
+In this week the work that has been done is given as follows :
+
+-> For detecting any object in an GIS image I have to create a model which can
+detect  the object. Initially I am beginning with water body detection in a
+google satellite images.
+
+-> The first challenge I faced is the scarcity of labeled data for training a
+model. I figured out a way to label the images whether a water body is present
+in the image or not.
+
+-> First I downloaded the "normal" google map of a specific cor-ordinate at a
+specific zoom level. I observed that the water bodies in this kind of map has
+a fix RGB value, which is R=163, G=204, and B=255. I converted RGB values to
+HSV value and defined an upper and lower bound for detecting that color. I used
+opencv module in Python 3.5 to perform the above stated task.
+
+-> After converting the "normal" google map of the place into binary image where
+only water bodies are visible and other things are blacked out. *image*
+
+-> Now there are some noise in the image like some individual pixels also have that same RGB values.
+So I normalized the image. *image*
+
+-> Now I wrote a logic that if an image contains white pixel then obviously it
+contains waterbody and so thus it's satellite counterpart also has some water waterbody
+present int it. And by using this logic I labeled the images and created a data
+set of 456 images.
+
+The accuracy of the training set is : 
