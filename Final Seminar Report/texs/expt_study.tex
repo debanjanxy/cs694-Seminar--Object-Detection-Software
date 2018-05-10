@@ -1,0 +1,104 @@
+\chapter{Experimental Study}
+Apart from surveying the literature, I have also done some experimental studies, like collecting data, implementing CNN followed by fully connected neural network and deploying this model on my collected data. 
+
+\section{Problem Statement}
+We need to detect wells present in satellite images of some specific villages of Maharashtra. The main motivation to solve this problem is to tackle the problem of water deprivation. By detecting wells and water-bodies in a region we can find out the villages which does not have enough water resources.
+\par This is a problem of binary classification, where given an image we can classify it as either an image of well or non-well.
+
+
+\section{Dataset Preparation}
+I have prepared a dataset of ground truth images of well and non well images. I have manually collected the co-ordinates of the wells and downloaded the image of that co-ordinate from Google Earth. I have collected around 769 well images and 700 non-well images of size $64\times 64$. 
+\par For training the model, 500 well images and 500 non-well images are used. And for testing the model 269 well images and 200 non-well images has been used. 
+
+
+\section{Methodology}
+I have used CNN as feature extractor and MLP as classifier in my model. I have created a two layered convolutional neural network model. The description of the model is given as: 
+\begin{itemize}
+    \item The first convolutional stage is with ReLU activation function followed by a max-pooling layer. This layer has 20 convolutional filters, each one of them has a size of $5\times 5$. The output dimension is same as that of the input shape i.e, $64\times 64$. As this is the first layer in our model, we have to define its input shape i.e, (1,64,64). The max-pooling operation applies a sliding window that slides over the image and takes the maximum value of pixel present in that region.
+    
+    \item The second convolutional layer is also followed by ReLU activation function and a max-pooling layer. Now, we increase the number of convolutional filters to 50 from 20 in the previous layer.
+    
+    \item Then we have a standard flattening layer and a dense layer of 500 neurons. This flattening layer flattens the last 3D feature block of the CNN and provides it to the dense layer. This dense layer acts as a hidden layer. The output layer of the MLP has softmax function as activation function, which can be defined as: $$P(y=j|X)=\frac{e^{X^T\cdot w}}{\sum_{k=1}^{K}e^{X^T\cdot w}}$$ where $K$ is the number of classes and $P(y=j|X)$ is the probability of the input being in class $j$ given it's feature vector $X$.
+\end{itemize}
+
+\subsection{Brief Description of the Hyper-parameters}
+The parameters to the CNN model are the filters and biases. But there are some other indirect parameters which control these primary parameters. These are called the hyper-parameters. 
+\begin{itemize}
+    \item \textbf{Learning rate: }It is the rate at which the weight updation happens during back-propagation algorithm. If it is very small then weight updation will be slow which will result in slow convergence of the back-propagation algorithm.
+    \item \textbf{Batch size: }It is the number of samples that will be propagated to the network of the model. This results in less amount of memory requirement during the training process. And training process becomes faster. But if the batch size is too small then the model will not be able calculate the gradient accurately.
+    \item \textbf{Number of epochs: }Number of iterations that will be executed while doing the gradient descent. Gradient descent is an algorithm to update the weights based on the loss. More number of iterations might lead to over-fitting and the training process will be longer. On the other hand, less number of epochs might lead to under-fitting.
+    \item \textbf{Optimizer: }In our model we have used Adam optimizer. This is basically an algorithm to reduce the loss by updating the weights in a proper way. This algorithm is similar to gradient descent algorithm but the only difference is variable learning rate. That is, in every iteration the learning rate varies.
+    \item \textbf{Loss function: }This function calculates the amount of miss-classification done by the model. Here, I have used cross-entropy loss function. Cross-entropy loss function for binary classification is defined as: 
+    $$loss=-ylog(a)-(1-y)log(1-a)$$ where $y$ is the ground truth label and $a$ is the predicted label. 
+    \item \textbf{Validation split: }We train the model with certain amount of data and validate the model with the rest of the training data, e.g, in my model I have used validation split as 0.2, i,e, the model will be trained with 80\% of the training data and will be validated with the rest of the 20\% training data.
+\end{itemize}
+The values of various hyper-parameters of the model is described below: \\
+
+\begin{tabu} to 0.9\textwidth { | X[l] | X[c] | }
+ \hline
+ \textbf{Hyper-parameter} & \textbf{Value} \\
+\hline
+Batch size & 128\\
+\hline
+Number of epochs & 50\\
+\hline
+Optimizer & Adam optimizer\\
+\hline
+Loss function & Cross-entropy loss\\
+\hline
+Validation split & 0.2 \\
+\hline
+\end{tabu}
+\\
+
+The code of the model architecture is given below: 
+\begin{lstlisting}[caption=CNN model]
+class LeNet:
+    @staticmethod
+    def build(input_shape, classes):
+        model = Sequential()
+        
+        model.add(Conv2D(20, kernel_size=5, padding='same', input_shape=input_shape))
+        model.add(Activation("relu"))
+        model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2)))
+        
+        model.add(Conv2D(50, kernel_size=5, border_mode="same"))
+        model.add(Activation("relu"))
+        model.add(MaxPooling2D(pool_size=(2,2), strides=(2,2)))
+        
+        model.add(Flatten())
+        model.add(Dense(500))
+        model.add(Activation("relu"))
+        
+        model.add(Dense(classes))
+        model.add(Activation("softmax"))
+        return model
+\end{lstlisting}
+
+\section{Results}
+Before jumping onto the results, I want to describe the accuracy metrics. They are described below: 
+\begin{itemize}
+    \item \textbf{True positives (TP): }Number of samples that are correctly classified and labeled as ``well".
+    \item \textbf{True negatives (TN): }Number of samples correctly classified and labeled as ``non-well".
+    \item \textbf{False positives (FP): }Number of miss-classified samples that has been predicted as ``well".
+    \item \textbf{False negatives (FN): }Number of miss-classified samples that has been predicted as ``non-well".
+    \item \textbf{Precision: }It is defined as: $$Precision=\frac{TP}{TP+FP}$$
+    \item \textbf{Recall: }It is defined as:
+    $$Recall=\frac{TP}{TP+FN}$$
+    \item \textbf{Accuracy: }It is defined as:
+    $$Accuracy=\frac{TP+TN}{TP+TN+FP+FN}$$
+\end{itemize}
+The results of deploying the above mentioned trained model on 469 test images is given below:
+\begin{itemize}
+    \item \textbf{Test accuracy}:  0.9275053307445827
+    \item \textbf{Correctly classified images}:  435
+    \item \textbf{True Negatives}:  211
+    \item \textbf{True Positives}:  224
+    \item \textbf{False Positives}:  19
+    \item \textbf{False Negatives}:  15
+    \item \textbf{Precision}:  0.9218106995884774
+    \item \textbf{Recall}:  0.9372384937238494
+\end{itemize}
+
+Hence, the \textbf{test accuracy} achieved by my model is \textbf{92.75\%}. The \textbf{precision rate} and \textbf{recall rate} are \textbf{92.18\%} and \textbf{93.72\%} respectively. The reason behind non-zero false positives and false negatives is the scarcity of data. We have trained the model with very less amount of images. By increasing the amount of data the accuracy will increase. I have concluded this from my previous experiments. At the very beginning I trained the model with only 132 images and tested on 100 images. The model has achieved around 82.33\% test accuracy. 
+\par I have not changed the architecture of the model. Instead I increased the amount of data and the accuracy has also increased progressively. In this experiment I have not used any object localization algorithm.

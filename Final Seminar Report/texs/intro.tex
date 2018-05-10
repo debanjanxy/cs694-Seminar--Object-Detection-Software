@@ -1,0 +1,10 @@
+\chapter{Introduction}
+The definition of object detection in satellite images can be given as the localization and recognition of a particular class of objects, e.g, trees, houses, air-crafts, wells etc. Object detection can be used for military purposes, like locating the number of air-crafts in enemy air base camp, region surveying like detecting the number of wells and water bodies in a region which will indicate the water-deprivation level in a region. 
+\par In this survey we have focused on deep learning techniques like convolutional neural networks (CNN) \cite{b1}, hybrid deep convolutional neural networks (HDNN), multi-layer perceptron (MLP) etc. for recognition of the object. We have also discussed about the window proposal algorithms or object localization algorithms for detection of potential objects in the satellite images e.g, binarized normed gradients (BING) \cite{b2}, ellipse and line segment detector (ELSD) \cite{b4} etc. 
+\par There are various challenges exist in this field such as insufficient amount of satellite image data of a particular object to train the deep learning models, variation of illumination and shadow in the images etc.
+\par The problem of object detection in satellite images can be solved by following three general steps. They are: 
+\begin{itemize}
+    \item \textbf{Candidate Selection or Object Localization: }This step deals with the selection of potential object windows which might contain our object of interest.
+    \item \textbf{Feature Extraction: }It deals with the extraction of relevant features of the proposed object windows from the previous step. 
+    \item \textbf{Classification: } Based on the extracted features from the previous step, we classify the window as object window or non-object window. Various classifiers can be used, such as support vector machines (SVM) \cite{b3}, MLP etc.
+\end{itemize}

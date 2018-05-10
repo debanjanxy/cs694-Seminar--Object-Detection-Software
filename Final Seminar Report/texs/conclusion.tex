@@ -1,0 +1,16 @@
+\chapter{Conclusions}
+\section{Comparison of Different Methods}
+The first method, i.e, sliding window - HDNN - MLP has used sliding window technique for object localization,  which is a slow and computationally intensive technique. For feature extraction HDNN has been used, which can extract variable scaled features but Chen et.al.\cite{b8} have not considered the surrounding features of the air-crafts. Also they had used MLP for classification, which requires considerable amount of data for accurate classification. But, the authors did not have that much data. This might be the reason for high false alarm rate in their model.
+
+\par ELSD - CNN and HOG - SVM is the second method that has achieved 91.84\% recall rate and 97.51\% precision rate. ELSD has been used for candidate selection as their object of interest was oil-tank which is generally circular in shape. But, for detecting differently shaped objects, we have to modify ELSD method. CNN and HOG has been used for extracting surrounding and local feature of the object but it does not extract variable scaled features as described in \cite{b8}. The authors had considerable amount of data but still they have used linear SVM. The use of MLP instead of linear SVM could have increase the recall rate of the model.
+
+\par The last method has used BING as candidate selector which, according to \cite{b2} has high object detection rate. For feature extraction, CNN with only two layers has been used. And also there were only 2000 positive images, which is not enough for accurate classification using MLP. These drawbacks might leaded to low recall rate and high false alarm rate.
+
+\par From this brief survey of several methods and procedures it is clear that BING can be used as a generic object locator. Apart from this, while extracting features we have to consider both local and surrounding feature of the object of interest. It can be done using CNN for extracting surrounding feature and HOG for extracting local feature. But feature extracted by CNN does not scale, which can be achieved by using HDNN. So, HDNN with HOG can extract variable scaled surrounding feature and local feature of the object respectively. And finally, for large dataset we should use MLP instead of SVM and vice-versa, because SVM is slower than MLP. Thus for large dataset the classification procedure will take large amount of time.
+
+\section{Future Work}
+BING as candidate selector, HDNN-HOG as feature extractor and MLP as classifier might work better than all the three methods described in prevoius chapters. Therefore, I want to implement these methods on the dataset of wells and non-wells. 
+\par To use MLP as classifier, we have to create a large dataset. Currently the dataset has only 769 well image patches and 700 non-well image patches. Thus a large dataset will be needed. Along with the increment in number of different samples, data augmentation has to be done to make the system more general and robust.
+\par Finally, we have seen that every method is detecting a specific object in their experiment which is not scalable for detecting multiple objects. Hence, development of a generic method that can detect multiple objects in a satellite image is necessary. 
+
+
