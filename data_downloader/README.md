@@ -1,4 +1,6 @@
 # Execution Instruction
+
+Goto the directory through command line where data_downloader.py and filename.txt is present.
 ```
 python3 data_downloader.py filename.txt
 ```
