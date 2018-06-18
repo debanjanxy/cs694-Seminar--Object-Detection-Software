@@ -1,7 +1,7 @@
-Execute the code with following commands:
-
+# Execution Instruction
+```
 python3 data_downloader.py filename.txt
-
+```
 "filename.txt" should be present in the same directory as that of data_downloader.py
 
 "filename.txt" contains all the latitude and longitude of the wells
